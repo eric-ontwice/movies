@@ -16,3 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+// Generos
+Route::get('/genders', 'GenderController@index');
+
+// Películas
+Route::get('/peliculas/{pelicula_id}', 'MovieController@show');
