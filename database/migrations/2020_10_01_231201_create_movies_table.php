@@ -17,7 +17,7 @@ class CreateMoviesTable extends Migration
             $table->id();
             $table->string('title');
             $table->date('release_date');
-            $table->year('release_year')->nullable();
+            $table->integer('release_year')->nullable();
             $table->integer('duration')->unsigned();
             $table->bigInteger('gender_id')->unsigned();
             $table->timestamps();

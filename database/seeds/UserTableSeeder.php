@@ -27,6 +27,11 @@ class UserTableSeeder extends Seeder
             'password'  => bcrypt('Ontwice2020')
         ]);
 
-        // 1 Generar Seeder de Yahave
+        User::create([
+            'name'      => "yahave",
+            'lastname'  => "Mondragon",
+            'email'     => "yahave.mondragon@grupoontwice.com",
+            'password'  => bcrypt('1234567890')
+        ]);
     }
 }
