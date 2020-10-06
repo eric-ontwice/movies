@@ -5,7 +5,13 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-
+                    @if (\Auth::user()->role_id == 2)
+                        <div class="col col-12">
+                            <a href="{{ route('gender.create') }}">
+                                <button class="btn btn-success">Agregar Género</button>
+                            </a>
+                        </div>
+                    @endif
                     <div class="card-body">
                         @if (session('status'))
                             <div class="alert alert-success" role="alert">

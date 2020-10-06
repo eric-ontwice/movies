@@ -23,6 +23,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 // Generos
 Route::get('/genders', 'GenderController@index');
+Route::get('/genders/create', 'GenderController@create')->name('gender.create');
 
 // Películas
 Route::get('/peliculas/{pelicula_id}', 'MovieController@show');
