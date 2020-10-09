@@ -40,13 +40,8 @@
                 <div class="form-group">
                     <label for="">Genero</label>
                     <select name="gender_id" class="form-control">
-                        <option value="{{ old('gender_id', $movie->gender_id) }}">{{ old('gender_id', $movie->name) }}
-                        </option>
                         @foreach ($genders as $gender)
-                            @if ($gender->name != $movie->name)
-                                <option value="{{ old('gender_id', $gender->id) }}">
-                                    {{ old('gender_id', $gender->name) }}</option>
-                            @endif
+                            <option value="{{ $gender->id }}" {{ ($movie->gender_id == $gender->id) ? 'selected' : '' }}>{{ $gender->name }}
                         @endforeach
                     </select>
                 </div>

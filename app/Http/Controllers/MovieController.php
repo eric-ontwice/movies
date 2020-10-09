@@ -10,38 +10,22 @@ use Illuminate\Support\Facades\Validator;
 
 class MovieController extends Controller
 {
-    public function create(){
-        $genders        = Gender::select('id','name')->orderBy('name','asc')->get();
-        
-        return view('movies.create', ['movie' => new Movie()])->with(compact(['genders']));
+    public function __construct()
+    {
+        $this->middleware('auth');
     }
 
-    public function store(Request $request){
-        $messages = $this->mensajesValidacion();
-        $rules = $this->reglasValidacion();
+    public function index()
+    {
+        $movies          = Movie::join('genders', 'genders.id', '=', 'movies.gender_id')
+            ->select('movies.id', 'title', 'release_year', 'image', 'genders.name')
+            ->get();
 
-        $validator = Validator::make($request->all(), $rules, $messages);
+        $genders         = Gender::all();
 
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        $movie                 = new Movie();
-
-        $movie->title          = request('title');        
-        $movie->release_date   = request('release_date');
-        $year = explode("-",$movie->release_date);        
-        $movie->release_year   = $year[0];        
-        $movie->duration       = request('duration');
-        $movie->image          = request('image');
-        $movie->synopsis       = request('synopsis');
-        $movie->gender_id      = request('gender_id');
-
-        $movie->save();
-        return redirect('/genders');
+        return view('genders.index')->with(compact([
+            'movies', 'genders'
+        ]));
     }
 
     public function show($pelicula_id) {        
@@ -52,81 +36,5 @@ class MovieController extends Controller
         return view('movies.show')->with(compact([
             'movie'
         ]));
-    }
-
-    public function edit($id){                
-        $genders        = Gender::select('id','name')->orderBy('name','asc')->get();
-        $movie          = Movie::join('genders', 'genders.id', '=', 'movies.gender_id') 
-                         ->where('movies.id','=',$id)
-                         ->first();
-        //dd($movie); 
-        return view('movies.edit',['movie'=>$movie])->with(compact(['genders']));
-        
-    }
-
-    public function update(Request $request, $id)
-    {
-        $messages = $this->mensajesValidacion();
-        $rules = $this->reglasValidacion();
-
-        $validator = Validator::make($request->all(), $rules, $messages);
-
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        $movie = Movie::findOrFail($id);
-        $movie->title = $request->get('title');
-        $movie->release_date   = request('release_date');
-        $year = explode("-",$movie->release_date);        
-        $movie->release_year   = $year[0];        
-        $movie->duration       = request('duration');
-        $movie->image          = request('image');
-        $movie->synopsis       = request('synopsis');
-        $movie->gender_id      = request('gender_id');
-
-        $movie->update();
-        return redirect('/movies');
-    }
-
-    public function destroy($id)
-    {        
-            $movie = Movie::findOrFail($id);
-            $movie->delete();
-            return redirect('/movies');        
-    }
-
-    public function mensajesValidacion()
-    {
-        $messages = [
-            'title.required'         => 'El titulo es requerido',            
-            'release_date.required'  => 'La fecha de lanzamiento es requerida', 
-            'release_date.date'      => 'La fecha debe ser de tipo date', 
-            'duration.required'      => 'La duracion es requerida',
-            'duration.integer'       => 'La duracion debe ser numerica',
-            'image.required'         => 'El url de la imagen es requerido',
-            'image.url'              => 'Ingresa bien url de la imagen',
-            'gender_id.required'     => 'El genero es requerido',
-            'gender_id.integer'      => 'Recuerda ingresar bien el genero de la pelicula',
-            'synopsis.required'      => 'La sinopis es requerido',
-            'synopsis.max'           => 'La sinopis debe tener menos de 2000 caracteres',
-        ];
-        return $messages;
-    }
-
-    public function reglasValidacion()
-    {
-        $rules = [
-            'title'         => 'required',
-            'release_date'  => 'required|date',            
-            'duration'      => 'required|integer',
-            'image'         => 'required|url',
-            'gender_id'     => 'required|integer',
-            'synopsis'      => 'required|max:2000',
-        ];
-        return $rules;
     }
 }

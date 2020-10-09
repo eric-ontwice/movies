@@ -34,10 +34,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 // Películas
 Route::get('/peliculas/{pelicula_id}', 'MovieController@show');
 
-Route::get('/movies','GenderController@index')->name('genders.index');
-Route::get('/movies/create','MovieController@create')->name('movie.create');
-Route::post('/movies/store','MovieController@store')->name('movie.store');
-Route::get('/movies/edit/{id}','MovieController@edit')->name('movie.edit');
-Route::post('/movies/update/{id}','MovieController@update')->name('movie.update');
-Route::get('/movies/delete/{id}','MovieController@destroy')->name('movie.destroy');
+// Movies Usuario normal
+Route::get('/movies','MovieController@index')->name('genders.index');
+
+// Movies Usuario Administrador
+Route::get('/movies/create','Admin\MovieController@create')->name('movie.create');
+Route::post('/movies/store','Admin\MovieController@store')->name('movie.store');
+Route::get('/movies/edit/{id}','Admin\MovieController@edit')->name('movie.edit');
+Route::post('/movies/update/{id}','Admin\MovieController@update')->name('movie.update');
+Route::get('/movies/delete/{id}','Admin\MovieController@destroy')->name('movie.destroy');
 
