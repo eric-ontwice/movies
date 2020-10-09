@@ -58,7 +58,7 @@
                     </textarea>
                 </div>
                 <div class="d-flex justify-content-around">
-                    <button type="submit" class="btn btn-success">Aceptar</button>
+                <button type="submit" class="btn btn-success">Aceptar</button>
                     <button type="reset" class="btn btn-light">Reset</button>
                     <a href="{{ route('genders.index') }}"><input type="button" value="Salir" class="btn btn-danger"></input></a>
                 </div>

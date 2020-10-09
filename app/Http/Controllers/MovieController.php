@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Gender;
-use App\Models\Movie;
-
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\{Gender,Movie};
 
 class MovieController extends Controller
 {

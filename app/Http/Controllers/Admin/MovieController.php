@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use App\Models\{Gender,Movie};
 
 class MovieController extends Controller
 {
@@ -47,17 +49,18 @@ class MovieController extends Controller
         return redirect('/genders');
     }
 
-    public function edit($id){     
-        $genders        = Gender::select('id','name')->orderBy('name','asc')->get();
-        $movie          = Movie::join('genders', 'genders.id', '=', 'movies.gender_id') 
+    public function edit($id){            
+        $genders        = Gender::select('genders.id','name')->orderBy('name','asc')->get();
+        $movie          = Gender::join('movies', 'genders.id', '=', 'movies.gender_id') 
                          ->where('movies.id','=',$id)
                          ->first();
-        
+        //dd($movie);
+        //dd($id);
         return view('movies.edit',['movie'=>$movie])->with(compact(['genders']));
     }
 
     public function update(Request $request, $id)
-    {
+    {        
         $messages = $this->mensajesValidacion();
         $rules = $this->reglasValidacion();
 
@@ -70,7 +73,7 @@ class MovieController extends Controller
                 ->withInput();
         }
 
-        $movie = Movie::findOrFail($id);
+        $movie = Movie::findOrFail($id);        
         $movie->title = $request->get('title');
         $movie->release_date   = request('release_date');
         $year = explode("-",$movie->release_date);        

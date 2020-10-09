@@ -21,23 +21,26 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-// Generos
+/**
+ * Todo lo de Genders
+ */
+//________________________________Usuario Normales
  Route::get('/genders','GenderController@index')->name('genders.index');
- Route::get('/genders/create','GenderController@create')->name('gender.create');
- Route::post('/genders/store','GenderController@store')->name('gender.store');
- Route::get('/genders/delete/{id}','GenderController@destroy')->name('gender.destroy');
- Route::get('/genders/edit/{id}','GenderController@edit')->name('gender.edit');
- Route::post('/genders/update/{id}','GenderController@update')->name('gender.update');
+ //________________________________Usuarios Admin
+ Route::get('/genders/create','Admin\GenderController@create')->name('gender.create');
+ Route::post('/genders/store','Admin\GenderController@store')->name('gender.store');
+ Route::get('/genders/edit/{id}','Admin\GenderController@edit')->name('gender.edit');
+ Route::post('/genders/update/{id}','Admin\GenderController@update')->name('gender.update');
+ Route::get('/genders/delete/{id}','Admin\GenderController@destroy')->name('gender.destroy');
 
-//Route::resource('genders','GenderController');
 
-// Películas
-Route::get('/peliculas/{pelicula_id}', 'MovieController@show');
-
-// Movies Usuario normal
+/**
+ * Todo lo de Movies
+ */
+//________________________________Usuario Normales
 Route::get('/movies','MovieController@index')->name('genders.index');
-
-// Movies Usuario Administrador
+Route::get('/peliculas/{pelicula_id}', 'MovieController@show');
+//________________________________Usuarios Admin
 Route::get('/movies/create','Admin\MovieController@create')->name('movie.create');
 Route::post('/movies/store','Admin\MovieController@store')->name('movie.store');
 Route::get('/movies/edit/{id}','Admin\MovieController@edit')->name('movie.edit');
