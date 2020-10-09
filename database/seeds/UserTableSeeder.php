@@ -13,6 +13,9 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
+    /**
+    * Users
+    */
         User::create([
             'name'      => "Eric",
             'lastname'  => "Montes de Oca Juárez",
@@ -33,12 +36,22 @@ class UserTableSeeder extends Seeder
             'email'     => "yahave.mondragon@grupoontwice.com",
             'password'  => bcrypt('1234567890')
         ]);
-
+    /**
+     * ADMINS
+     */
         User::create([
             'name'      => "Eric",
             'lastname'  => "Admin",
             'email'     => "eric@admin.com",
             'password'  => bcrypt('Ontwice2020#Admin'),
+            'role_id'   => 2
+        ]);
+
+        User::create([
+            'name'      => "Yahave",
+            'lastname'  => "Admin",
+            'email'     => "yahave48@gmail.com",
+            'password'  => bcrypt('1234567890'),
             'role_id'   => 2
         ]);
     }

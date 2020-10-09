@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('content')
-    <div class="container">
-        <div class="row justify-content-center">
+@section('content')    
+    <div class="container">        
+        <div class="row justify-content-center">            
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body row">
@@ -13,7 +13,7 @@
                                 <img style="width: 70%; height: 70%;" src="{{ $movie->image }}" alt="">
                             </div>
                             <div class="col col-6" align="center">                                
-                                <table class="table table-dark">
+                                <table class="table row bg-dark text-white">
                                     <tbody>
                                         <tr>
                                             <td>Género</td>
@@ -35,11 +35,13 @@
                                         <tr>
                                             <th colspan="4">{{ $movie->synopsis }}</th>
                                         </tr>
+                                        
+                                        
                                     </tfoot>
                                 </table>
+                                <a href="{{ route('genders.index') }}"><input type="button" value="Salir" class="btn btn-danger"></input></a>
                             </div>
-
-                        @endforeach
+                        @endforeach                        
                     </div>
                 </div>
             </div>

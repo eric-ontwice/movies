@@ -3,18 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\{Gender, Movie};
-
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class GenderController extends Controller
 {
-    public function index() {        
-        $movies          = Movie::join('genders','genders.id','=','movies.gender_id')
-                                    ->select('movies.id','title','release_year','image','genders.name')
-                                    ->get();
+    public function index()
+    {
+        $movies          = Movie::join('genders', 'genders.id', '=', 'movies.gender_id')
+            ->select('movies.id', 'title', 'release_year', 'image', 'genders.name')
+            ->get();
 
         $genders         = Gender::all();
-        
+
         // V2
         // $movies_by_gender = [];
 
@@ -38,11 +39,75 @@ class GenderController extends Controller
         // dd($movies_by_gender);
 
         return view('genders.index')->with(compact([
-            'movies','genders'
+            'movies', 'genders'
         ]));
     }
 
-    public function create() {
-        return "Crear Genero";
+    public function create()
+    {
+        return view('genders.create');
+    }
+
+    public function store(Request $request)
+    {
+        $messages = $this->mensajesValidacion();
+        $rules = $this->reglasValidacion();
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $gender         = new Gender();
+        $gender->name   = request('name');
+        $gender->save();
+        return redirect('/genders');
+    }
+
+    public function edit($id)
+    {
+        return view('genders.edit', ['gender'=>Gender::findOrFail($id)]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $gender = Gender::findOrFail($id);
+        $gender->name = $request->get('name');
+        $gender->update();
+        return redirect('/genders');
+    }
+
+    public function destroy($id)
+    {
+        $movies_by_Gender = Movie::where('gender_id', '=', $id)->count();
+
+        if ($movies_by_Gender == 0) {            
+            $gender = Gender::findOrFail($id);
+            $gender->delete();
+            return redirect('/genders');
+        } else {            
+            $errorDelete = 'Error: No puedes eliminar un genero que tiene peliculas en lista debe estar vacío';            
+            return redirect('/genders')->with('message',$errorDelete);
+        }
+    }
+
+    public function mensajesValidacion()
+    {
+        $messages = [
+            'name.required' => 'El genero es requerido',
+        ];
+        return $messages;
+    }
+
+    public function reglasValidacion()
+    {
+        $rules = [
+            'name'  => 'required'
+        ];
+        return $rules;
     }
 }
