@@ -17,9 +17,8 @@ class MovieController extends Controller
     public function index()
     {
         $movies          = Movie::join('genders', 'genders.id', '=', 'movies.gender_id')
-            ->select('movies.id', 'title', 'release_year', 'image', 'genders.name')
-            ->get();
-
+                                ->select('movies.id', 'title', 'release_year', 'image', 'classification', 'genders.name')
+                                ->get();        
         $genders         = Gender::all();
 
         return view('genders.index')->with(compact([
@@ -31,7 +30,7 @@ class MovieController extends Controller
         $movie          = Movie::join('genders','genders.id','=','movies.gender_id')                         
                          ->where('movies.id','=',$pelicula_id)
                          ->get();
-        
+        //dd($movie);
         return view('movies.show')->with(compact([
             'movie'
         ]));

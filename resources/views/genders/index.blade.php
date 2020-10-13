@@ -89,15 +89,15 @@
                                                             @endif
                                                         </div>
                                                         <div class="card-body">
+                                                            <a href="{{ url('/peliculas/' . $movie->id) }}">
                                                             <img style="width: 100%; height: 25%;" src="{{ $movie->image }}"
                                                                 alt="">
+                                                            </a>
                                                             <p>{{ $movie->release_year }}</p>
                                                             {{--
                                                         </div>
                                                         <div class="card-footer"> --}}
-                                                            <a href="{{ url('/peliculas/' . $movie->id) }}">
-                                                                <button class="btn btn-primary">Ver más</button>
-                                                            </a>
+                                                            <p>Clasificacion {{ $movie->classification }}</p>
                                                         </div>
                                                     </div>
                                                 </div>

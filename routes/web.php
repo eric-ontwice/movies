@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 //Route::get('/', 'GenderController@index');
 
-Route::view('/', 'welcome');
+Route::view('/', 'auth.login');
 
 Auth::routes();
 
@@ -39,7 +39,7 @@ Route::get('/home', 'HomeController@index')->name('home');
  */
 //________________________________Usuario Normales
 Route::get('/movies','MovieController@index')->name('genders.index');
-Route::get('/peliculas/{pelicula_id}', 'MovieController@show');
+Route::get('/peliculas/{pelicula_id}', 'MovieController@show')->middleware('ClassificationBirthdate');
 //________________________________Usuarios Admin
 Route::get('/movies/create','Admin\MovieController@create')->name('movie.create');
 Route::post('/movies/store','Admin\MovieController@store')->name('movie.store');

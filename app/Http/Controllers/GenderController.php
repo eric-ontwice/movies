@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class GenderController extends Controller
-{
+{    
+    
     public function index()
     {
         $movies          = Movie::join('genders', 'genders.id', '=', 'movies.gender_id')

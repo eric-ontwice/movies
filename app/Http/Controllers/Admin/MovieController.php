@@ -38,7 +38,7 @@ class MovieController extends Controller
 
         $movie->title          = request('title');        
         $movie->release_date   = request('release_date');
-        $year = explode("-",$movie->release_date);        
+        $year                  = explode("-",$movie->release_date);        
         $movie->release_year   = $year[0];        
         $movie->duration       = request('duration');
         $movie->image          = request('image');
@@ -109,6 +109,8 @@ class MovieController extends Controller
             'gender_id.integer'      => 'Recuerda ingresar bien el genero de la pelicula',
             'synopsis.required'      => 'La sinopis es requerido',
             'synopsis.max'           => 'La sinopis debe tener menos de 2000 caracteres',
+            'synopsis.require'       => 'La clasificacion es requerida',
+            'classification.in'      => 'Recuerda seleccionar bien la clasificacion de la pelicula',
         ];
         return $messages;
     }
@@ -122,6 +124,7 @@ class MovieController extends Controller
             'image'         => 'required|url',
             'gender_id'     => 'required|integer',
             'synopsis'      => 'required|max:2000',
+            'classification'=> 'required|in:AA,A,B,B15,C,D',
         ];
         return $rules;
     }
