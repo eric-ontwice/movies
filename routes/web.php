@@ -47,3 +47,5 @@ Route::get('/movies/edit/{id}','Admin\MovieController@edit')->name('movie.edit')
 Route::post('/movies/update/{id}','Admin\MovieController@update')->name('movie.update');
 Route::get('/movies/delete/{id}','Admin\MovieController@destroy')->name('movie.destroy');
 
+// Registro de usuarios
+Route::post('/user/store-data', 'UserController@getUserData')->name('store-data');

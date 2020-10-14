@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use App\Models\{UserPayment};
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -50,10 +51,12 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+            'bank'              => ['required', 'exists:banks,id'],
+            'card_number'       => ['required', 'string', 'min:16'],
+            'expiration_month'  => ['required', 'in:1,2,3,4,5,6,7,8,9,10,11,12'],
+            'expiration_year'   => ['required', 'in:20,21,22,23,24,25'],
+            'cvv'               => ['required', 'digits:3']
+            ]);
     }
 
     /**
@@ -64,12 +67,27 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'lastname' => $data['lastname'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'birthdate' => $data['birthdate'],
+        // dd(\Session::all());
+        $user = User::create([
+            'name'      => session('user_name'),
+            'lastname'  => session('user_lastname'),
+            'email'     => session('user_email'),
+            'password'  => Hash::make(session('useR_password')),
+            'birthdate' => session('user_birthdate'),
         ]);
+
+        // Guardar direccion del usuario
+
+        // Guardar metodo de pago
+        $user_payment = new UserPayment;
+        $user_payment->card_number = $data['card_number'];
+        $user_payment->expiration_month = $data['expiration_month'];
+        $user_payment->expiration_year = $data['expiration_year'];
+        $user_payment->cvv = $data['cvv'];
+        $user_payment->user_id = $user->id;
+        $user_payment->bank_id = $data['bank'];
+        $user_payment->save();
+        
+        return $user;
     }
 }
