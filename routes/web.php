@@ -48,5 +48,6 @@ Route::post('/movies/update/{id}','Admin\MovieController@update')->name('movie.u
 Route::get('/movies/delete/{id}','Admin\MovieController@destroy')->name('movie.destroy');
 
 // Registro de usuarios
-Route::post('/user/address', 'UserController@getUserData')->name('store-data');//view domicilio
+Route::post('/user/address', 'UserController@getUserData')->name('store-data'); //alamcena datos de usuario
+Route::get('/user/get-address', 'UserController@showAddressForm')->name('show-address');
 Route::post('/user/store-data', 'UserController@getUserAddress')->name('store-address');//view banco

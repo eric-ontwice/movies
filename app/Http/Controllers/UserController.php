@@ -14,15 +14,9 @@ class UserController extends Controller
      * 
      */
     public function getUserData(Request $request) {                                
-        //dd('getUserData');
         //Validaciones
-        //dd($request);
-        $rulesUser = $this->rulesUser();
-        //dd($rulesUser);
-        //dd($request->all());
-        $validator = Validator::make($request->all(), $rulesUser);        
+        $validator = Validator::make($request->all(), $this->rulesUser());        
         
-        //if ($validator->fails()) {return dd('fails');}else{return dd('no fallo, sin errores');}
 
         if ($validator->fails()) {
             return redirect()
@@ -32,12 +26,20 @@ class UserController extends Controller
         }
 
         // Registrar variables de sesión
-        $sessionVar=$this->sessionUser($request);
+        $sessionVar = $this->sessionUser($request);
         
+        return redirect('/user/get-address');
+    }
+
+    /**
+     * 
+     */
+    public function showAddressForm() {
         return view('users.address');
     }
 
     public function getUserAddress(Request $request) {
+        // dd('Entra');
         //dd('getUserAddress');
         //Validaciones        
         //dd($request);
@@ -46,12 +48,17 @@ class UserController extends Controller
         //dd($rulesAddress);
         //dd($request->all());
         
-        $validator = Validator::make($request->all(),$rulesAddress,$messages);
+        $validator = Validator::make(
+                                        $request->all(), 
+                                        $rulesAddress,
+                                        $messages
+                                    );
         //dd($validator);
         //if ($validator->fails()) {return dd('fails');}else{return dd('sin errores');}
 
 //FIXME:@error 'POST'
         if ($validator->fails()) {
+            // dd($validator->errors());
             return redirect()
                     ->back()
                     ->withErrors($validator)
@@ -122,6 +129,7 @@ class UserController extends Controller
             'postal_code.required'   => 'Recuerda ingresar el codigo postal ',
             'postal_code.integer'    => 'Ingresar el codigo postal a 5 digitos',
         ];
+
         return $messages;
     }
 }
