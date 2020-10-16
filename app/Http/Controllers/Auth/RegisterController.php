@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
-use App\Models\{UserPayment};
+use App\Models\{UserPayment,UserAddress};
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -49,14 +49,16 @@ class RegisterController extends Controller
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'bank'              => ['required', 'exists:banks,id'],
-            'card_number'       => ['required', 'string', 'min:16'],
-            'expiration_month'  => ['required', 'in:1,2,3,4,5,6,7,8,9,10,11,12'],
-            'expiration_year'   => ['required', 'in:20,21,22,23,24,25'],
-            'cvv'               => ['required', 'digits:3']
+    {   
+        //dd('RegisterController.validator');
+        return Validator::make($data, [                        
+                        'bank'              => ['required', 'exists:banks,id'],
+                        'card_number'       => ['required', 'string', 'min:16'],
+                        'expiration_month'  => ['required', 'in:1,2,3,4,5,6,7,8,9,10,11,12'],
+                        'expiration_year'   => ['required', 'in:20,21,22,23,24,25'],
+                        'cvv'               => ['required', 'digits:3'],
             ]);
+        
     }
 
     /**
@@ -66,18 +68,30 @@ class RegisterController extends Controller
      * @return \App\User
      */
     protected function create(array $data)
-    {
-        // dd(\Session::all());
-        $user = User::create([
+    {        
+        //dd('create');
+         //dd(\Session::all());         
+        $user = User::create([          
             'name'      => session('user_name'),
             'lastname'  => session('user_lastname'),
             'email'     => session('user_email'),
-            'password'  => Hash::make(session('useR_password')),
+            'password'  => Hash::make(session('user_password')),
             'birthdate' => session('user_birthdate'),
         ]);
-
+        //dd($user);
+        $lastUser = User::max('id');
+        dd($lastUser);
+        dd($user->id);
         // Guardar direccion del usuario
-
+        $address = UserAddress::create([
+            'address'       => session('address'),
+            'number'        => session('number'),
+            'colony'        => session('colony'),
+            'municipality'  => session('municipality'),
+            'postal_code'   => session('postal_code'),
+            'user_id'       => $lastUser,
+        ]);        
+        //dd('user_payment');
         // Guardar metodo de pago
         $user_payment = new UserPayment;
         $user_payment->card_number = $data['card_number'];

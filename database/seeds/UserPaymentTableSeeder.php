@@ -13,7 +13,7 @@ class UserPaymentTableSeeder extends Seeder
     public function run()
     {
         UserPayment::create([                  
-            'card_number'       => "1234-4567-8912",
+            'card_number'       => "1234567891234567",
             'expiration_month'  => 12,
             'expiration_year'   => 23,
             'cvv'               => 123,
@@ -22,7 +22,7 @@ class UserPaymentTableSeeder extends Seeder
         ]);
 
         UserPayment::create([                  
-            'card_number'       => "4567-8912-1234",
+            'card_number'       => "1234567123456789",
             'expiration_month'  => 11,
             'expiration_year'   => 22,
             'cvv'               => 321,
@@ -31,7 +31,7 @@ class UserPaymentTableSeeder extends Seeder
         ]);
 
         UserPayment::create([                  
-            'card_number'       => "8912-1234-4567",
+            'card_number'       => "1234123412341234",
             'expiration_month'  => 10,
             'expiration_year'   => 21,
             'cvv'               => 213,
