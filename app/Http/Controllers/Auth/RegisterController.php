@@ -101,6 +101,8 @@ class RegisterController extends Controller
         $user_payment->user_id = $user->id;
         $user_payment->bank_id = $data['bank'];
         $user_payment->save();
+
+        // Enviar mail
         
         return $user;
     }
