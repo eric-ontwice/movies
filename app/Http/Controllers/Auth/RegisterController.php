@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\MessageReceived;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use App\Models\{UserPayment,UserAddress};
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -80,8 +82,8 @@ class RegisterController extends Controller
         ]);
         //dd($user);
         $lastUser = User::max('id');
-        dd($lastUser);
-        dd($user->id);
+        //dd($lastUser);
+        //dd($user->id);
         // Guardar direccion del usuario
         $address = UserAddress::create([
             'address'       => session('address'),
@@ -101,8 +103,14 @@ class RegisterController extends Controller
         $user_payment->user_id = $user->id;
         $user_payment->bank_id = $data['bank'];
         $user_payment->save();
-
-        // Enviar mail
+        
+        /**
+        * Mail
+        */
+        //                            ->queue(new MessageReceived($message));
+        Mail::to('yahave48@gmail.com')->send(new MessageReceived($user)); //email del admin @ADMIN-DUEÑO        
+        //return new MessageReceived($message);        
+        //return 'Mensaje enviado';
         
         return $user;
     }

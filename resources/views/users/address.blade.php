@@ -26,7 +26,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Direccion</label>
-                                    <input type="text" class="form-control" name="address"  placeholder="Ingresa tu domicilio">
+                                    <input type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address') }}" placeholder="Ingresa tu domicilio">
                                 </div>                                
                                 @error('address')
                                     <span class="invalid-feedback" role="alert">
@@ -38,7 +38,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Numero</label>
-                                    <input type="number" class="form-control" name="number"  placeholder="Ingresa el numero de casa">
+                                    <input type="number" class="form-control @error('number') is-invalid @enderror" name="number" value="{{ old('number') }}" placeholder="Ingresa el numero de casa">
                                 </div>                                
                                 @error('number')
                                     <span class="invalid-feedback" role="alert">
@@ -52,7 +52,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Colonia</label>
-                                    <input type="text" class="form-control" name="colony"  placeholder="Ingresa tu colonia">
+                                    <input type="text" class="form-control @error('colony') is-invalid @enderror" name="colony" value="{{ old('colony') }}" placeholder="Ingresa tu colonia">
                                 </div>                                
                                 @error('colony')
                                     <span class="invalid-feedback" role="alert">
@@ -64,7 +64,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Municipio</label>
-                                    <input type="text" class="form-control" name="municipality"  placeholder="Ingresa tu municipio">                                    
+                                    <input type="text" class="form-control @error('municipality') is-invalid @enderror" name="municipality" value="{{ old('municipality') }}" placeholder="Ingresa tu municipio">                                    
                                 </div>                                
                                 @error('municipality')
                                     <span class="invalid-feedback" role="alert">
@@ -78,7 +78,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Codigo postal</label>
-                                    <input type="number" class="form-control" name="postal_code"  placeholder="Ingresa tu codigo postal">
+                                    <input type="number" class="form-control @error('postal_code') is-invalid @enderror" name="postal_code" value="{{ old('postal_code') }}" placeholder="Ingresa tu codigo postal">
                                 </div>                                
                                 @error('postal_code')
                                     <span class="invalid-feedback" role="alert">
